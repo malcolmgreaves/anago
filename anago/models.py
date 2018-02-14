@@ -79,7 +79,7 @@ class SeqLabeling(BaseModel):
         x = Dense(config.num_word_lstm_units, activation='tanh')(x)
         x = Dense(ntags)(x)
         self.crf = ChainCRF()
-        pred = self.crf(x)
+        pred = self.cref(x)
 
         sequence_lengths = Input(batch_shape=(None, 1), dtype='int32')
         self.model = Model(inputs=[word_ids, char_ids, sequence_lengths], outputs=[pred])

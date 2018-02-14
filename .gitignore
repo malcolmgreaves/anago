@@ -1,6 +1,7 @@
 # project-specific
 models/
 tests/models/
+test_dir/
 
 # Created by .ignore support plugin (hsz.mobi)
 ### Python template

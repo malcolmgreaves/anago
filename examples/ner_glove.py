@@ -4,7 +4,7 @@ import anago
 from anago.reader import load_data_and_labels, load_glove
 
 DATA_ROOT = os.path.join(os.path.dirname(__file__), '../data/conll2003/en/ner')
-EMBEDDING_PATH = 'glove.6B.100d.txt'
+EMBEDDING_PATH = '/mnt/hdd0_extra_store/model/glove/glove.6B.100d.txt'
 
 train_path = os.path.join(DATA_ROOT, 'train.txt')
 valid_path = os.path.join(DATA_ROOT, 'valid.txt')
