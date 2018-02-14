@@ -26,14 +26,6 @@ To install anaGo, simply run:
 $ pip install anago
 ```
 
-or install from the repository:
-
-```
-$ git clone https://github.com/Hironsan/anago.git
-$ cd anago
-$ pip install -r requirements.txt
-```
-
 ## Data and Word Vectors
 Training data takes a tsv format.
 The following text is an example of training data:
@@ -157,6 +149,14 @@ url = 'https://storage.googleapis.com/chakki/datasets/public/models.zip'
 download(url, dir_path)
 model = anago.Sequence.load(dir_path)
 ```
+
+### Local Development
+To create this project's environment, do the following:
+```python
+conda env create
+source activate anago
+```
+
 
 ## Reference
 This library uses bidirectional LSTM + CRF model based on
