@@ -3,6 +3,9 @@ models/
 tests/models/
 test_dir/
 
+# misc
+*.swp
+
 # Created by .ignore support plugin (hsz.mobi)
 ### Python template
 # Byte-compiled / optimized / DLL files
