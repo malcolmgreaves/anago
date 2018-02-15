@@ -29,7 +29,7 @@ class BaseModel(object):
         self.model.load_weights(filepath=filepath)
 
     def __getattr__(self, name):
-        return self.model.__getattribute__(name)
+        return getattr(self.model, name)
 
 
 class SeqLabeling(BaseModel):
