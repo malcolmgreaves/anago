@@ -13,7 +13,7 @@ print(len(x_train), 'train sequences')
 print(len(x_valid), 'valid sequences')
 embeddings = load_glove(EMBEDDING_PATH)
 # Use pre-trained word embeddings
-model = anago.Sequence(max_epoch=1, embeddings=embeddings)
+model = anago.Sequence(max_epoch=20, embeddings=embeddings)
 
 
 model.train(x_train, y_train, x_valid, y_valid)
