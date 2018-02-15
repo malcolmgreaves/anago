@@ -27,9 +27,9 @@ class BaseModel(object):
 
     def load(self, filepath):
         self.model.load_weights(filepath=filepath)
-    #
-    # def __getattr__(self, name):
-    #     return getattr(self.model, name)
+
+    def __getattr__(self, name):
+        return self.model.__getattribute__(name)
 
 
 class SeqLabeling(BaseModel):
@@ -61,36 +61,37 @@ class SeqLabeling(BaseModel):
                                     output_dim=config.char_embedding_size,
                                     mask_zero=True
                                     )(char_ids)
-        print("\n\n\n\n")
-        print(char_embeddings._keras_shape)
-        print("\n\n\n\n")
+        # print("\n\n\n\n")
+        # print(char_embeddings._keras_shape)
+        # print("\n\n\n\n")
 
         c_s = K.shape(char_embeddings)
 
-        char_embeddings = Lambda(lambda x: K.reshape(x, shape=(-1, c_s[-2], config.char_embedding_size)))(char_embeddings)
-        print("\n\n\n\n")
-        print(char_embeddings._keras_shape)
-        print("\n\n\n\n")
+        char_embeddings = Lambda(lambda x: K.reshape(x, shape=(-1, c_s[-2], config.char_embedding_size)))(
+            char_embeddings)
+        # print("\n\n\n\n")
+        # print(char_embeddings._keras_shape)
+        # print("\n\n\n\n")
 
         fwd_state = LSTM(config.num_char_lstm_units, return_state=True)(char_embeddings)[-2]
         bwd_state = LSTM(config.num_char_lstm_units, return_state=True, go_backwards=True)(char_embeddings)[-2]
 
         char_embeddings = Concatenate(axis=-1)([fwd_state, bwd_state])
-        print("\n\n\n\n")
-        print(char_embeddings._keras_shape)
-        print("\n\n\n\n")
+        # print("\n\n\n\n")
+        # print(char_embeddings._keras_shape)
+        # print("\n\n\n\n")
         # shape = (batch size, max sentence length, char hidden size)
 
         # char_embeddings = Lambda(lambda x: K.reshape(x, shape=(-1, c_s[1], 2 * config.num_char_lstm_units)))(char_embeddings)
         char_embeddings = Lambda(lambda x: K.reshape(x, shape=(-1, c_s[-2], 2 * config.num_char_lstm_units)),
                                  output_shape=(None, 2 * config.num_char_lstm_units))(char_embeddings)
-        print("\n\n\n\n")
-        print(char_embeddings._keras_shape)
-        print("\n\n\n\n")
+        # print("\n\n\n\n")
+        # print(char_embeddings._keras_shape)
+        # print("\n\n\n\n")
 
-        _shape = c_s
-        import ipdb
-        ipdb.set_trace()
+        # _shape = c_s
+        # import ipdb
+        # ipdb.set_trace()
 
         # combine characters and word
         x = Concatenate(axis=-1)([word_embeddings, char_embeddings])
@@ -101,8 +102,11 @@ class SeqLabeling(BaseModel):
         x = Dense(config.num_word_lstm_units, activation='tanh')(x)
         x = Dense(ntags)(x)
         self.crf = ChainCRF()
-        pred = self.cref(x)
+        pred = self.crf(x)
 
         sequence_lengths = Input(batch_shape=(None, 1), dtype='int32')
         self.model = Model(inputs=[word_ids, char_ids, sequence_lengths], outputs=[pred])
         self.config = config
+        #
+        # import ipdb
+        # ipdb.set_trace()
